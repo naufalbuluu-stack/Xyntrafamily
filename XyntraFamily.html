@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Web Grup - Premium Interactive Layout</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background-color: #3c3c3c;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+        .main-container {
+            width: 100vw;
+            min-height: 100vh;
+            position: relative;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 20px 0 60px 0;
+            background-image: 
+            linear-gradient(to right, #555555 1px, transparent 1px),
+            linear-gradient(to bottom, #555555 1px, transparent 1px);
+            background-size: calc(100vw / 6) calc(100vw / 6);
+            background-position: top left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-title {
+            width: 100%;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+        .banner-container {
+            width: 90%;
+            max-width: 500px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .banner-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        .menu-btn {
+            width: 75%;
+            height: 48px;
+            margin: 12px 0 4px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            user-select: none;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .menu-btn:active {
+            transform: scale(0.95); 
+        }
+        .btn-info { background-color: #4a5568; }
+        .btn-peraturan { background-color: #9e2a2b; }
+        .btn-hastag { background-color: #2d3748; }
+        .btn-admin { background-color: #2b4c7e; }
+        
+        .accordion-panel {
+            width: 100%;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .accordion-panel.show {
+            max-height: 600px;
+        }
+        .rules-list {
+            width: 85%;
+            padding: 15px 5px;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            font-weight: 500;
+            box-sizing: border-box;
+        }
+        .hashtag-container {
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1.3rem;
+            font-weight: bold;
+            line-height: 2;
+        }
+        .carousel-viewport {
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+            padding: 25px 0 10px 0;
+        }
+        .carousel-track {
+            display: flex;
+            padding-left: 15vw;
+            padding-right: 15vw;
+            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            box-sizing: border-box;
+        }
+        .admin-slide {
+            width: 70vw;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 0 12px;
+        }
+        .admin-photo-container {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #252525;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.35);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .admin-photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .admin-slide.lifted .admin-photo-container {
+            transform: translateY(-18px);
+        }
+        
+        .tiktok-slide-btn {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            background-color: #000000;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            padding: 0 22px;
+            border-radius: 8px;
+            text-transform: lowercase;
+            text-align: center;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.4);
+            transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.4s ease, margin 0.4s ease, transform 0.1s ease;
+            margin-top: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            display: inline-block;
+        }
+        .admin-slide.lifted .tiktok-slide-btn {
+            max-height: 38px;
+            opacity: 1;
+            padding: 8px 22px;
+            margin-top: -6px;
+            margin-bottom: 12px;
+        }
+        .tiktok-slide-btn:active {
+            transform: scale(0.92); /* Efek klik tombol tiktok */
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin-top: 5px;
+            width: 100%;
+        }
+        .nav-arrow {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s ease, color 0.2s ease;
+            padding: 10px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nav-arrow:active {
+            transform: scale(0.75);
+            color: #ccc;
+        }
+        .join-wrapper {
+            width: 100vw;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 25px 20px;
+            box-sizing: border-box;
+            margin-top: 15px;
+        }
+        .join-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 0;
+        }
+        .grup-photo {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 14px;
+            object-fit: cover;
+        }
+        .join-btn-link {
+            margin-top: 6px;
+            width: 43%;
+            display: flex;
+            justify-content: center;
+            transition: transform 0.1s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .join-btn-link:active {
+            transform: scale(0.9); /* Efek klik tombol join */
+        }
+        .join-btn-link img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+        .modal-backdrop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background-color: #2b2b2b;
+            border: 1px solid #555555;
+            padding: 25px 30px;
+            border-radius: 14px;
+            width: 75%;
+            max-width: 320px;
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.6;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transform: scale(0.85);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: #ffffff;
+        }
+        .modal-backdrop.show .modal-content {
+            transform: scale(1);
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(20, 20, 20, 0.92);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .loading-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .loading-box {
+            width: 75%;
+            max-width: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .loading-text {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            font-family: monospace;
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 5px;
+            background-color: #444444;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #ffffff; 
+            box-shadow: 0 0 8px #ffffff;
+            transition: width 0.05s linear;
+        }
+        .custom-footer {
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #8a8a8a;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-top: 40px; 
+            width: 100%;
+        }
+
+        .custom-footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <div class="main-title">✦🌸 Xyntra Family I 🌸✦</div>
+
+        <div class="banner-container">
+            <img src="https://i.postimg.cc/3JQFVkhM/Proyek-Baru-81-683B1E2.png" alt="Banner Utama">
+        </div>
+
+        <div class="menu-btn btn-info" id="infoBtn">📢 INFORMASI / 情報</div>
+
+        <div class="menu-btn btn-peraturan" onclick="toggleAccordion('panelPeraturan')">🏛️⚖️ PERATURAN / 規則</div>
+        <div class="accordion-panel" id="panelPeraturan">
+            <div class="rules-list">
+            🚫 No spam / flood<br>
+            ⚠️ Toxic secukupnya (jangan berlebihan)<br>
+            🚫 No promosi Without permission<br>
+            🔞 Dilarang konten sensitif<br>
+            🔗 Share link Permission required admin<br>
+            🔒 Maintain member privacy / Jaga privasi member<br>
+            📸 Must be friendly / wajib ramah<br>
+            🧑‍🤝‍🧑 no jomok sesama jenis<br>
+            ✨ bucin dilarang ikut campur<br><br>
+
+            ━━━━━━━━━━━━━━<br><br>
+
+            🔥 STRICT RULE<br><br>
+
+            ❌ Pornografi → Warn / Kick<br>
+            ❌ Sticker 18+ → Auto tindakan<br><br>
+
+            📌 Pelanggaran = Warn 3x / Kick
+            </div>
+        </div>
+
+        <div class="menu-btn btn-hastag" onclick="toggleAccordion('panelHastag')">🏷️ HASHTAG / タグ</div>
+        <div class="accordion-panel" id="panelHastag">
+            <div class="hashtag-container">
+                <div>#xyntrafamily</div>
+                <div>#xyntracreators</div>
+                <div>#margafx</div>
+                <div>#margaxyntra</div>
+            </div>
+        </div>
+
+        <div class="menu-btn btn-admin" onclick="toggleAccordion('panelAdmin')">🛡️ ADMIN / 管理者</div>
+        <div class="accordion-panel" id="panelAdmin">
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="adminTrack">
+
+                    <div class="admin-slide">
+                        <div class="admin-photo-container">
+                            <img src="https://i.postimg.cc/1znYQ4W3/Proyek-Baru-89-B28599E.png" alt="Admin 1">
+                        </div>
+                        <a href="https://www.tiktok.com/@lexyriprstt?_r=1&_t=ZS-9761rFaQxW5" target="_blank" class="tiktok-slide-btn redirect-link">[ꚠ] tiktok</a>
+                        
+                        <a href="https://wa.me/6283112056805" target="_blank" class="tiktok-slide-btn redirect-link">Chat Admin</a>
+                    </div>
+
+                    <div class="admin-slide">
+                        <div class="admin-photo-container">
+                            <img src="https://i.postimg.cc/52jsB6WD/Proyek-Baru-89-739C43F.png" alt="Admin 2">
+                        </div>
+                        <a href="https://www.tiktok.com/@jallzsukaloli?_r=1&_t=ZS-975zhzrd7HU" target="_blank" class="tiktok-slide-btn redirect-link">[ꚠ] tiktok</a>
+                                                <a href="https://wa.me/6281525805512" target="_blank" class="tiktok-slide-btn redirect-link">Chat Admin</a>
+                    </div>
+
+                    <div class="admin-slide">
+                        <div class="admin-photo-container">
+                            <img src="https://i.postimg.cc/D03r8ZBn/Proyek-Baru-89-36F1279.png" alt="Admin 3">
+                        </div>
+                        <a href="https://www.tiktok.com/@prstfinzz?_r=1&_t=ZS-976ibSJ9qEr" target="_blank" class="tiktok-slide-btn redirect-link">[ꚠ] tiktok</a>
+                        
+                        <a href="https://wa.me/6285830251524" target="_blank" class="tiktok-slide-btn redirect-link">Chat Admin</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="carousel-controls">
+                <button class="nav-arrow" onclick="moveSlider('prev')">《</button>
+                <button class="nav-arrow" onclick="moveSlider('next')">》</button>
+            </div>
+        </div>
+
+        <div class="join-wrapper">
+            
+            <div class="join-card">
+                <img class="grup-photo" src="https://i.postimg.cc/vH2C5793/Proyek-Baru-84-F0B906B.png" alt="Grup Kiri">
+                <a href="https://chat.whatsapp.com/LuCFjNJFd2P2ftLY2qVY5L?s=cl&p=a&mlu=1&amv=3" target="_blank" class="join-btn-link redirect-link">
+                    <img src="https://i.postimg.cc/QdXJmVGD/Proyek-Baru-87-CFDF45E.png" alt="Join Kiri">
+                </a>
+            </div>
+
+            <div class="join-card">
+                <img class="grup-photo" src="https://i.postimg.cc/SNd6tqf5/Proyek-Baru-84-C891193.png" alt="Grup Kanan">
+                <a href="https://chat.whatsapp.com/D3Em9wE0KoD2h4FcA5TTHq" target="_blank" class="join-btn-link redirect-link">
+                    <img src="https://i.postimg.cc/QdXJmVGD/Proyek-Baru-87-CFDF45E.png" alt="Join Kanan">
+                </a>
+            </div>
+        </div>
+
+        <footer class="custom-footer">
+            <p>2026 &copy; Xyntra Family. All rights reserved.</p>
+            <p>Made with ♥︎ by Fall</p>
+        </footer>
+
+    </div>
+
+    <div class="modal-backdrop" id="infoModal">
+        <div class="modal-content">
+📅 Since / 設立日 : 10 November 2025<br><br>
+
+╭─────【 XYNTRA 】─────╮<br>
+アニメ編集 & JJ AMV クリエイターの集まり<br>
+(Tempat kumpul creator Anime, JJ & AMV)<br>
+╰────────────────────╯
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-text"><span id="loadingPercent">0</span>%</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        function toggleAccordion(id) {
+            const panel = document.getElementById(id);
+            panel.classList.toggle('show');
+        }
+        
+        let currentAdminIdx = 0;
+        const totalAdmins = 3;
+        const track = document.getElementById('adminTrack');
+        const slides = document.querySelectorAll('.admin-slide');
+
+        function moveSlider(direction) {
+            slides.forEach(slide => slide.classList.remove('lifted'));
+            
+            if (direction === 'next') {
+                if (currentAdminIdx < totalAdmins - 1) currentAdminIdx++;
+            } else if (direction === 'prev') {
+                if (currentAdminIdx > 0) currentAdminIdx--;
+            }
+            track.style.transform = `translateX(calc(-${currentAdminIdx} * 70vw))`;
+        }
+
+        slides.forEach((slide, idx) => {
+            const photoBox = slide.querySelector('.admin-photo-container');
+            photoBox.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (idx === currentAdminIdx) {
+                    slide.classList.toggle('lifted');
+                }
+            });
+        });
+
+        const modal = document.getElementById('infoModal');
+        const infoBtn = document.getElementById('infoBtn');
+
+        infoBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modal.classList.add('show');
+        });
+
+        window.addEventListener('click', () => {
+            if (modal.classList.contains('show')) {
+                modal.classList.remove('show');
+                slides.forEach(slide => slide.classList.remove('lifted'));
+            }
+        });
+        
+        modal.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingPercent = document.getElementById('loadingPercent');
+        const progressBarFill = document.getElementById('progressBarFill');
+        const redirectLinks = document.querySelectorAll('.redirect-link');
+
+        redirectLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                
+                const targetUrl = this.getAttribute('href');
+                
+                if(!targetUrl || targetUrl.includes('LINK_TIKTOK') || targetUrl.includes('MASUKKAN_LINK')) {
+                    return; 
+                }
+
+                loadingOverlay.classList.add('show');
+                
+                let progress = 0;
+                progressBarFill.style.width = '0%';
+                loadingPercent.innerText = '0';
+
+                const loadingInterval = setInterval(() => {
+                    progress += Math.floor(Math.random() * 8) + 4; 
+                    
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(loadingInterval);
+                        
+                        progressBarFill.style.width = '100%';
+                        loadingPercent.innerText = '100';
+
+                        setTimeout(() => {
+                            loadingOverlay.classList.remove('show');
+                            window.open(targetUrl, '_blank');
+                        }, 250);
+                    } else {
+                        progressBarFill.style.width = progress + '%';
+                        loadingPercent.innerText = progress;
+                    }
+                }, 40); 
+            });
+        });
+    </script>
+
+</body>
+</html>
